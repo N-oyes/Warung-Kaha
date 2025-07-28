@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-white flex justify-center items-center min-h-screen">
+  <div class="bg-cyan-400 w-full max-w-3xl p-10 rounded-lg shadow-lg flex items-center space-x-8">
+    
+    <!-- Gambar di sebelah kiri -->
+    <img 
+      src="../assets/admin/auth/signin-image.jpg"
+      alt="Desk with laptop, orange chair, and green plant in a pot"
+      class="w-[250px] h-[250px] rounded-lg shadow-md"
+    />
+
+    <!-- Form login -->
+    <form id="loginForm" class="flex flex-col space-y-6 w-full max-w-sm">
+      <h1 class="text-black text-4xl font-bold text-center mb-4">Login</h1>
+
+      <!-- Input -->
+      <label class="flex items-center space-x-3 border-b border-black pb-1">
+        <i class="fas fa-user text-black text-lg"></i>
+        <input id="email" class="outline-none bg-cyan-400 text-black text-base w-full" placeholder="Email" type="email"/>
+      </label>
+
+      <label class="flex items-center space-x-3 border-b border-black pb-1">
+        <i class="fas fa-lock text-black text-lg"></i>
+        <input id="password" class="outline-none bg-cyan-400 text-black text-base w-full" placeholder="Password" type="password"/>
+      </label>
+
+      <a class="text-blue-400 text-base text-center" href="#">Lupa Password?</a>
+
+      <!-- Tombol Login -->
+      <button class="bg-blue-500 text-white text-2xl px-4 py-2 rounded-lg w-full mt-2" type="submit">
+        Log in
+      </button>
+
+      <!-- Tombol Register -->
+      <button id="register" class="bg-green-500 text-white text-base px-4 py-2 rounded-lg w-full mt-2" type="button">
+        Register
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginForm = document.getElementById("loginForm");
+      const registerButton = document.getElementById("register");
+
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // SweetAlert2
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil!',
+          text: 'Kamu akan dialihkan ke halaman admin...',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        setTimeout(() => {
+          window.location.href = "admin.html";
+        }, 2000);
+      });
+
+      registerButton.addEventListener("click", function () {
+        Swal.fire({
+          icon: 'info',
+          title: 'Info Register',
+          text: 'Fitur register hanya untuk hiasan :)',
+          confirmButtonText: 'Oke'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Makanan & Minuman - Warung Kaha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f2f5;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #4e54c8 0%, #8f94fb 100%);
+      color: white;
+    }
+    .header {
+      background: linear-gradient(90deg, #5f65b2 0%, #3a3f6e 100%);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #5f65b2 0%, #4e54c8 100%);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #4e54c8 0%, #3a3f6e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .table-header {
+      background: linear-gradient(90deg, #3a3f6e 0%, #2a2f57 100%);
+    }
+    .modal-overlay {
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .modal-content {
+      animation: modalFade 0.3s ease-out;
+    }
+    @keyframes modalFade {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card-shadow {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .menu-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    .status-available {
+      background-color: #e6fffa;
+      color: #319795;
+    }
+    .status-unavailable {
+      background-color: #fff5f5;
+      color: #e53e3e;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div class="flex flex-1 min-h-0">
+    <!-- Sidebar -->
+    <aside class="sidebar w-56 flex flex-col select-none">
+      <div class="flex items-center gap-2 px-6 py-4 border-b border-blue-300">
+        <i class="fas fa-store text-white text-xl"></i>
+        <span class="text-white text-lg font-medium">Warung Kaha</span>
+      </div>
+      <nav class="flex flex-col flex-1 py-4">
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-home text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 bg-blue-700" href="#">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-utensils text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Makanan & Minuman</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="riwayat_admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-history text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Riwayat Pembayaran</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col min-h-0">
+      <!-- Header -->
+      <header class="header flex items-center justify-between px-8 py-4">
+        <div class="flex items-center gap-4">
+          <h1 class="text-white text-xl font-medium">Dashboard Menu</h1>
+          <div class="bg-white bg-opacity-20 rounded px-3 py-1 flex items-center gap-2">
+            <i class="fas fa-utensils text-white text-sm"></i>
+            <span class="text-white text-xs">/ Makanan & Minuman</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white bg-opacity-30 flex items-center justify-center">
+            <i class="fas fa-user text-white"></i>
+          </div>
+          <span class="text-white text-base font-medium select-none">Admin</span>
+        </div>
+      </header>
+      
+      <!-- Content area -->
+      <section class="flex-1 overflow-auto px-8 py-6">
+        <div class="bg-white rounded-lg card-shadow p-6 max-w-full">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-gray-800 text-xl font-semibold">Daftar Menu Makanan & Minuman</h2>
+            <button id="addMenuBtn" class="btn-primary flex items-center gap-2 text-white text-base font-medium rounded-lg px-4 py-2 select-none">
+              <i class="fas fa-plus"></i>
+              Tambah Menu
+            </button>
+          </div>
+          
+          <div class="flex justify-between items-center mb-4 text-sm text-gray-600">
+            <div class="flex items-center gap-1">
+              <span>Show</span>
+              <select class="border border-gray-300 rounded text-sm text-gray-700 font-normal px-2 py-1">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>100</option>
+              </select>
+              <span>entries</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <label class="select-none" for="search">Search :</label>
+              <input class="border border-gray-300 bg-white h-8 w-48 text-sm text-gray-700 font-normal px-3 rounded" 
+                     id="search" type="text" placeholder="Cari menu...">
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="table-header text-white text-sm font-medium select-none">
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    NAMA MENU
+                  </th>
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    DETAIL MENU
+                  </th>
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    KATEGORI
+                  </th>
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    STOK
+                  </th>
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    HARGA
+                  </th>
+                  <th class="py-3 px-4 text-left border border-[#3a3f6e] cursor-pointer">
+                    AKSI
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="menuTable" class="text-gray-700 text-sm font-normal">
+                <!-- Data will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="flex justify-between items-center border-t border-gray-200 mt-6 pt-4 text-sm text-gray-600 font-normal select-none">
+            <div>
+              Showing <span id="showingStart">1</span> to <span id="showingEnd">4</span> of <span id="totalEntries">4</span> entries
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="bg-gray-200 text-gray-700 rounded px-3 py-1 hover:bg-gray-300 disabled:opacity-50" disabled>
+                Previous
+              </button>
+              <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center">1</span>
+              <button class="bg-gray-200 text-gray-700 rounded px-3 py-1 hover:bg-gray-300 disabled:opacity-50" disabled>
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <footer class="bg-gray-200 border-t border-gray-300 py-3 px-8 select-none flex items-center justify-between text-gray-600 text-sm">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-sync-alt animate-spin text-gray-500"></i>
+      <span>2025 Warung Makan Kaha - Yogyakarta</span>
+    </div>
+    <div>v1.0.0</div>
+  </footer>
+
+    </main>
+  </div>
+  
+
+  <!-- Modal for Add/Edit Menu -->
+  <div id="menuModal" class="modal-overlay fixed inset-0 hidden items-center justify-center p-4">
+    <div class="modal-content bg-white rounded-lg w-full max-w-md overflow-hidden">
+      <div class="flex justify-between items-center px-6 py-4 border-b">
+        <h3 class="text-lg font-semibold text-gray-800" id="modalTitle">Tambah Menu Baru</h3>
+        <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="menuForm">
+          <input type="hidden" id="menuId">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuName">Nama Menu</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   id="menuName" type="text" placeholder="Contoh: Bakso" required>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuDetail">Detail Menu</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   id="menuDetail" type="text" placeholder="Contoh: Bakso Daging" required>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuCategory">Kategori</label>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    id="menuCategory" required>
+              <option value="">Pilih Kategori</option>
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuStatus">Status Stok</label>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    id="menuStatus" required>
+              <option value="">Pilih Status</option>
+              <option value="Tersedia">Tersedia</option>
+              <option value="Habis">Habis</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuPrice">Harga (Rp)</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   id="menuPrice" type="number" min="1000" placeholder="Contoh: 20000" required>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-medium mb-2" for="menuImage">URL Gambar</label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   id="menuImage" type="text" placeholder="Masukkan URL gambar" required>
+          </div>
+          <div class="flex justify-end gap-3 mt-6">
+            <button type="button" id="cancelModal" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
+              Batal
+            </button>
+            <button type="submit" class="btn-primary px-4 py-2 text-white rounded-md">
+              Simpan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview of menu.html -->
+  <div id="menuPreview" class="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 w-80 hidden">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="font-semibold text-gray-800">Preview Menu Pelanggan</h3>
+      <button id="closePreview" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto">
+      <!-- Preview items will be populated by JavaScript -->
+    </div>
+    <div class="mt-3 text-center">
+      <a href="menu.html" target="_blank" class="text-blue-600 hover:underline text-sm">
+        Lihat halaman menu lengkap
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Data storage
+    const menuItemsKey = 'warungKahaMenuItems';
+    
+    // Sample data (will be replaced by localStorage data)
+    let menuItems = JSON.parse(localStorage.getItem(menuItemsKey)) || [
+      {
+        id: 1,
+        name: "Bakso",
+        detail: "Bakso Daging",
+        category: "Makanan",
+        status: "Tersedia",
+        price: 20000,
+        image: "https://storage.googleapis.com/a1aa/image/12ff3c88-f8ea-43be-c246-8d4cffd92215.jpg"
+      },
+      {
+        id: 2,
+        name: "Es Teh",
+        detail: "Jasmine, Lychee",
+        category: "Minuman",
+        status: "Tersedia",
+        price: 5000,
+        image: "https://storage.googleapis.com/a1aa/image/d0235cee-badc-4f3f-370b-8da9937c14fc.jpg"
+      },
+      {
+        id: 3,
+        name: "Nasi Balap",
+        detail: "Ayam Pedas",
+        category: "Makanan",
+        status: "Tersedia",
+        price: 13000,
+        image: "https://storage.googleapis.com/a1aa/image/db5e3f2f-a87f-4eb2-2aee-bacc42cc40fb.jpg"
+      },
+      {
+        id: 4,
+        name: "Es Kopi",
+        detail: "Ice Latte",
+        category: "Minuman",
+        status: "Tersedia",
+        price: 7000,
+        image: "https://storage.googleapis.com/a1aa/image/e324267f-c4d7-4fee-1344-fb72b840673e.jpg"
+      }
+    ];
+
+    // DOM Elements
+    const menuTable = document.getElementById('menuTable');
+    const menuModal = document.getElementById('menuModal');
+    const menuForm = document.getElementById('menuForm');
+    const modalTitle = document.getElementById('modalTitle');
+    const addMenuBtn = document.getElementById('addMenuBtn');
+    const closeModal = document.getElementById('closeModal');
+    const cancelModal = document.getElementById('cancelModal');
+    const menuPreview = document.getElementById('menuPreview');
+    const closePreview = document.getElementById('closePreview');
+    const showingStart = document.getElementById('showingStart');
+    const showingEnd = document.getElementById('showingEnd');
+    const totalEntries = document.getElementById('totalEntries');
+
+    // Initialize the app
+    function init() {
+      saveMenuItems();
+      renderMenuTable();
+      setupEventListeners();
+      updatePaginationInfo();
+    }
+
+    // Save menu items to localStorage
+    function saveMenuItems() {
+      localStorage.setItem(menuItemsKey, JSON.stringify(menuItems));
+    }
+
+    // Render menu table
+    function renderMenuTable() {
+      menuTable.innerHTML = '';
+      
+      menuItems.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-200 hover:bg-gray-50';
+        row.innerHTML = `
+          <td class="py-3 px-4">${item.name}</td>
+          <td class="py-3 px-4">${item.detail}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-1 rounded-full text-xs ${
+              item.category === 'Makanan' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'
+            }">
+              ${item.category}
+            </span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-1 rounded-full text-xs ${
+              item.status === 'Tersedia' ? 'status-available' : 'status-unavailable'
+            }">
+              ${item.status}
+            </span>
+          </td>
+          <td class="py-3 px-4">Rp. ${item.price.toLocaleString('id-ID')}</td>
+          <td class="py-3 px-4 flex gap-2">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-3 py-1 text-xs edit-btn" data-id="${item.id}">
+              <i class="fas fa-edit mr-1"></i> Edit
+            </button>
+            <button class="bg-red-500 hover:bg-red-600 text-white rounded-md px-3 py-1 text-xs delete-btn" data-id="${item.id}">
+              <i class="fas fa-trash mr-1"></i> Hapus
+            </button>
+          </td>
+        `;
+        menuTable.appendChild(row);
+      });
+      
+      // Add event listeners to edit and delete buttons
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => deleteMenuItem(btn.dataset.id));
+      });
+    }
+
+    // Open modal for adding new menu
+    function openAddModal() {
+      modalTitle.textContent = 'Tambah Menu Baru';
+      menuForm.reset();
+      document.getElementById('menuId').value = '';
+      menuModal.classList.remove('hidden');
+      menuModal.classList.add('flex');
+    }
+
+    // Open modal for editing menu
+    function openEditModal(id) {
+      const menuItem = menuItems.find(item => item.id === parseInt(id));
+      if (menuItem) {
+        modalTitle.textContent = 'Edit Menu';
+        document.getElementById('menuId').value = menuItem.id;
+        document.getElementById('menuName').value = menuItem.name;
+        document.getElementById('menuDetail').value = menuItem.detail;
+        document.getElementById('menuCategory').value = menuItem.category;
+        document.getElementById('menuStatus').value = menuItem.status;
+        document.getElementById('menuPrice').value = menuItem.price;
+        document.getElementById('menuImage').value = menuItem.image;
+        menuModal.classList.remove('hidden');
+        menuModal.classList.add('flex');
+      }
+    }
+
+    // Delete menu item
+    function deleteMenuItem(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus menu ini?')) {
+        menuItems = menuItems.filter(item => item.id !== parseInt(id));
+        saveMenuItems();
+        renderMenuTable();
+        updatePaginationInfo();
+        showPreview();
+      }
+    }
+
+    // Handle form submission
+    menuForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('menuId').value;
+      const name = document.getElementById('menuName').value;
+      const detail = document.getElementById('menuDetail').value;
+      const category = document.getElementById('menuCategory').value;
+      const status = document.getElementById('menuStatus').value;
+      const price = parseInt(document.getElementById('menuPrice').value);
+      const image = document.getElementById('menuImage').value;
+      
+      if (id) {
+        // Update existing item
+        const index = menuItems.findIndex(item => item.id === parseInt(id));
+        if (index !== -1) {
+          menuItems[index] = { 
+            id: parseInt(id), 
+            name, 
+            detail, 
+            category, 
+            status, 
+            price, 
+            image 
+          };
+        }
+      } else {
+        // Add new item
+        const newId = menuItems.length > 0 ? Math.max(...menuItems.map(item => item.id)) + 1 : 1;
+        menuItems.push({ 
+          id: newId, 
+          name, 
+          detail, 
+          category, 
+          status, 
+          price, 
+          image 
+        });
+      }
+      
+      saveMenuItems();
+      renderMenuTable();
+      updatePaginationInfo();
+      closeMenuModal();
+      showPreview();
+    });
+
+    // Close modal
+    function closeMenuModal() {
+      menuModal.classList.add('hidden');
+      menuModal.classList.remove('flex');
+    }
+
+    // Update pagination info
+    function updatePaginationInfo() {
+      showingStart.textContent = '1';
+      showingEnd.textContent = menuItems.length;
+      totalEntries.textContent = menuItems.length;
+    }
+
+    // // Show preview of menu.html
+    // function showPreview() {
+    //   menuPreview.classList.remove('hidden');
+      
+    //   const previewContainer = menuPreview.querySelector('.grid');
+    //   previewContainer.innerHTML = '';
+      
+    //   // Get 4 random items for preview
+    //   const shuffled = [...menuItems].sort(() => 0.5 - Math.random());
+    //   const selected = shuffled.slice(0, 4);
+      
+    //   selected.forEach(item => {
+    //     const previewItem = document.createElement('div');
+    //     previewItem.className = 'menu-item bg-white rounded-lg overflow-hidden transition-all cursor-pointer';
+    //     previewItem.innerHTML = `
+    //       <img src="${item.image}" alt="${item.name}" class="w-full h-20 object-cover">
+    //       <div class="p-2">
+    //         <p class="text-xs font-semibold truncate">${item.name}</p>
+    //         <p class="text-xs text-gray-600 truncate">Rp ${item.price.toLocaleString('id-ID')}</p>
+    //       </div>
+    //     `;
+    //     previewContainer.appendChild(previewItem);
+    //   });
+    // }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Modal buttons
+      addMenuBtn.addEventListener('click', openAddModal);
+      closeModal.addEventListener('click', closeMenuModal);
+      cancelModal.addEventListener('click', closeMenuModal);
+      
+      // Close modal when clicking outside
+      menuModal.addEventListener('click', (e) => {
+        if (e.target === menuModal) {
+          closeMenuModal();
+        }
+      });
+      
+      // Preview button
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('#closePreview')) {
+          menuPreview.classList.add('hidden');
+        }
+      });
+      
+      // Search functionality
+      const searchInput = document.getElementById('search');
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredItems = menuItems.filter(item => 
+          item.name.toLowerCase().includes(searchTerm) || 
+          item.detail.toLowerCase().includes(searchTerm)
+        );
+        
+        renderFilteredTable(filteredItems);
+      });
+      
+      // Show preview when page loads
+      setTimeout(showPreview, 2000);
+    }
+
+    // Render filtered table
+    function renderFilteredTable(items) {
+      menuTable.innerHTML = '';
+      
+      items.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-200 hover:bg-gray-50';
+        row.innerHTML = `
+          <td class="py-3 px-4">${item.name}</td>
+          <td class="py-3 px-4">${item.detail}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-1 rounded-full text-xs ${
+              item.category === 'Makanan' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'
+            }">
+              ${item.category}
+            </span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-1 rounded-full text-xs ${
+              item.status === 'Tersedia' ? 'status-available' : 'status-unavailable'
+            }">
+              ${item.status}
+            </span>
+          </td>
+          <td class="py-3 px-4">Rp. ${item.price.toLocaleString('id-ID')}</td>
+          <td class="py-3 px-4 flex gap-2">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-3 py-1 text-xs edit-btn" data-id="${item.id}">
+              <i class="fas fa-edit mr-1"></i> Edit
+            </button>
+            <button class="bg-red-500 hover:bg-red-600 text-white rounded-md px-3 py-1 text-xs delete-btn" data-id="${item.id}">
+              <i class="fas fa-trash mr-1"></i> Hapus
+            </button>
+          </td>
+        `;
+        menuTable.appendChild(row);
+      });
+      
+      // Reattach event listeners
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => deleteMenuItem(btn.dataset.id));
+      });
+    }
+
+    // Initialize the application
+    init();
+  </script>
+</body>
+</html>

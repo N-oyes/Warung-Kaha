@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <style>
+    body { font-family: "Inter", sans-serif; background-color: #f0f2f5; }
+    .sidebar { background: linear-gradient(180deg, #4e54c8 0%, #8f94fb 100%); color: white; }
+    .header { background: linear-gradient(90deg, #5f65b2 0%, #3a3f6e 100%); color: white; }
+    .btn-primary {
+      background: linear-gradient(90deg, #5f65b2 0%, #4e54c8 100%);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #4e54c8 0%, #3a3f6e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div class="flex flex-row min-h-screen w-full">
+    <!-- Sidebar -->
+    <aside class="sidebar w-56 flex flex-col select-none">
+      <div class="flex items-center gap-2 px-6 py-4 border-b border-blue-300">
+        <i class="fas fa-store text-white text-xl"></i>
+        <span class="text-white text-lg font-medium">Warung Kaha</span>
+      </div>
+      <nav class="flex flex-col flex-1 py-4">
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="#">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-home text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3" href="menu_admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-utensils text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Makanan & Minuman</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="riwayat_admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-history text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Riwayat Pembayaran</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors mt-auto" href="login.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-sign-out-alt text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col">
+      <header class="header flex flex-col px-6 py-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-white text-xl font-normal">Dashboard</h2>
+          <div class="flex items-center gap-3 text-lg font-normal">
+            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+              <i class="fas fa-user text-gray-600 text-2xl"></i>
+            </div>
+            Admin
+          </div>
+        </div>
+
+        <!-- Dashboard header and cards -->
+        <div class="flex flex-wrap gap-4">
+          <div class="bg-white p-4 w-48 flex justify-between items-center rounded-lg shadow-md">
+            <div class="flex flex-col text-gray-600 text-xs font-normal leading-tight">
+              <span>Pemasukan Bulan Ini</span>
+              <span class="text-gray-800 text-lg mt-1">Rp. 0</span>
+            </div>
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-pink-100">
+              <img alt="Pink money bill icon" class="w-6 h-6" src="https://placehold.co/24x24/png?text=$"/>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 w-48 flex justify-between items-center rounded-lg shadow-md">
+            <div class="flex flex-col text-gray-600 text-xs font-normal leading-tight">
+              <span>Pemasukan Hari Ini</span>
+              <span class="text-gray-800 text-lg mt-1">Rp. 0</span>
+            </div>
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-orange-100">
+              <img alt="Orange money bill icon" class="w-6 h-6" src="https://placehold.co/24x24/orange/png?text=$"/>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 w-48 flex justify-between items-center rounded-lg shadow-md">
+            <div class="flex flex-col text-gray-600 text-xs font-normal leading-tight">
+              <span>Transaksi Hari Ini</span>
+              <span class="text-gray-800 text-lg mt-1">Rp. 0</span>
+            </div>
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100">
+              <img alt="Yellow handshake icon" class="w-6 h-6" src="https://placehold.co/24x24/yellow/png?text=🤝"/>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 w-48 flex justify-between items-center rounded-lg shadow-md">
+            <div class="flex flex-col text-gray-600 text-xs font-normal leading-tight">
+              <span>Transaksi Bulan Ini</span>
+              <span class="text-gray-800 text-lg mt-1">Rp. 0</span>
+            </div>
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-200">
+              <img alt="Cyan handshake icon" class="w-6 h-6" src="https://placehold.co/24x24/cyan/png?text=🤝"/>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Chart title -->
+      <h3 class="text-center text-black text-lg font-normal mt-6 mb-2">Pendapatan Bulanan</h3>
+      <div class="flex-1 px-12">
+        <div id="chart-container" style="height: 400px; width: 100%;"></div>
+      </div>
+
+      <footer class="bg-gray-200 border-t border-gray-300 py-3 px-8 select-none flex items-center justify-between text-gray-600 text-sm">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-sync-alt animate-spin text-gray-500"></i>
+          <span>2025 Warung Makan Kaha - Yogyakarta</span>
+        </div>
+        <div>v1.0.0</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const riwayat = JSON.parse(localStorage.getItem("riwayat_pesanan")) || [];
+      const paymentHistory = {};
+      const today = new Date();
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      riwayat.forEach(pesanan => {
+        if (pesanan.status === "lunas") {
+          const tanggal = new Date(pesanan.id);
+          const bulan = months[tanggal.getMonth()];
+          paymentHistory[bulan] = (paymentHistory[bulan] || 0) + pesanan.total;
+        }
+      });
+
+      const monthlyIncomeData = months.map(month => paymentHistory[month] || 0);
+
+      Highcharts.chart("chart-container", {
+        chart: { type: "line", backgroundColor: "transparent" },
+        title: { text: "" },
+        yAxis: {
+          title: { text: "Pendapatan Bulanan", style: { color: "#999999" } },
+          labels: { style: { color: "#999999" } },
+          gridLineColor: "#e6e6e6",
+        },
+        xAxis: {
+          categories: months,
+          labels: { style: { color: "#999999" } },
+        },
+        legend: {
+          layout: "horizontal",
+          align: "center",
+          verticalAlign: "bottom",
+          itemStyle: { color: "#333333" },
+        },
+        series: [{ name: "Pendapatan", data: monthlyIncomeData, color: "#2ca02c" }],
+        credits: { enabled: false }
+      });
+
+      let totalBulanIni = 0, totalHariIni = 0, transaksiHariIni = 0, transaksiBulanIni = 0;
+      const bulanIni = months[today.getMonth()];
+      const hariIni = today.toDateString();
+
+      riwayat.forEach(pesanan => {
+        if (pesanan.status === "lunas") {
+          const tgl = new Date(pesanan.id);
+          const bln = months[tgl.getMonth()];
+          const hari = tgl.toDateString();
+
+          if (bln === bulanIni) {
+            totalBulanIni += pesanan.total;
+            transaksiBulanIni++;
+          }
+          if (hari === hariIni) {
+            totalHariIni += pesanan.total;
+            transaksiHariIni++;
+          }
+        }
+      });
+
+      document.querySelectorAll("span").forEach(el => {
+        if (el.innerText.includes("Rp. 0")) {
+          if (el.previousElementSibling?.innerText.includes("Bulan Ini")) el.innerText = "Rp. " + totalBulanIni.toLocaleString("id-ID");
+          if (el.previousElementSibling?.innerText.includes("Hari Ini")) el.innerText = "Rp. " + totalHariIni.toLocaleString("id-ID");
+        }
+        if (el.previousElementSibling?.innerText === "Transaksi Hari Ini") el.innerText = transaksiHariIni;
+        if (el.previousElementSibling?.innerText === "Transaksi Bulan Ini") el.innerText = transaksiBulanIni;
+      });
+    });
+  </script>
+</body>
+</html>

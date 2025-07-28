@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwayat Pembayaran - Warung Kaha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f0f2f5;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #4e54c8 0%, #8f94fb 100%);
+      color: white;
+    }
+    .header {
+      background: linear-gradient(90deg, #5f65b2 0%, #3a3f6e 100%);
+      color: white;
+    }
+    .lunas {
+      color: #10b981;
+      font-weight: 500;
+      background-color: #ecfdf5;
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    .belum {
+      color: #f59e0b;
+      font-weight: 500;
+      background-color: #fffbeb;
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    .breadcrumb {
+      background-color: #e0e7ff;
+      padding: 12px 24px;
+      font-size: 14px;
+      color: #4f46e5;
+      margin-bottom: 20px;
+    }
+    .table-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    .table-header {
+      background-color: #4f46e5;
+      color: white;
+    }
+    .table-row:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .table-row:hover {
+      background-color: #f1f5f9;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div class="flex flex-row min-h-screen w-full">
+    <!-- Sidebar -->
+    <aside class="sidebar w-56 flex flex-col select-none">
+      <div class="flex items-center gap-2 px-6 py-4 border-b border-blue-300">
+        <i class="fas fa-store text-white text-xl"></i>
+        <span class="text-white text-lg font-medium">Warung Kaha</span>
+      </div>
+      <nav class="flex flex-col flex-1 py-4">
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-home text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 hover:bg-blue-700 transition-colors" href="menu_admin.html">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-utensils text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Makanan & Minuman</span>
+        </a>
+        <a class="flex items-center gap-3 px-6 py-3 bg-blue-700 transition-colors" href="#">
+          <div class="bg-white bg-opacity-20 p-2 rounded">
+            <i class="fas fa-history text-white"></i>
+          </div>
+          <span class="text-white text-sm font-medium">Riwayat Pembayaran</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col">
+      <header class="header flex flex-col px-6 py-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-white text-xl font-normal">Riwayat Pembayaran</h2>
+          <div class="flex items-center gap-3 text-lg font-normal">
+            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+              <i class="fas fa-user text-gray-600 text-2xl"></i>
+            </div>
+            Admin
+          </div>
+        </div>
+      </header>
+
+      <div class="breadcrumb">
+        <i class="fas fa-home"></i> / Dashboard / Riwayat Pembayaran
+      </div>
+
+      <div class="flex-1 px-6 pb-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold text-gray-800">Daftar Riwayat Pembayaran</h3>
+          </div>
+
+          <div class="table-container">
+            <table class="w-full" id="tabelRiwayat">
+              <thead>
+                <tr class="table-header">
+                  <th class="py-3 px-4 text-left">Kode Pembayaran</th>
+                  <th class="py-3 px-4 text-left">Nama Pemesanan</th>
+                  <th class="py-3 px-4 text-left">Tanggal Pesan</th>
+                  <th class="py-3 px-4 text-left">Total Pembayaran</th>
+                  <th class="py-3 px-4 text-left">Status Pembayaran</th>
+                  <th class="py-3 px-4 text-left">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="riwayat-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="bg-gray-200 border-t border-gray-300 py-3 px-8 select-none flex items-center justify-between text-gray-600 text-sm">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-sync-alt animate-spin text-gray-500"></i>
+          <span>2025 Warung Makan Kaha - Yogyakarta</span>
+        </div>
+        <div>v1.0.0</div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script>
+    let paymentHistory = JSON.parse(localStorage.getItem("riwayat_pesanan")) || [];
+
+    function renderTable() {
+      const tbody = document.getElementById("riwayat-body");
+      tbody.innerHTML = "";
+
+      paymentHistory.forEach((payment, index) => {
+        const row = document.createElement("tr");
+        row.className = "table-row";
+
+        const date = new Date(payment.tanggal || payment.id);
+        const formattedDate = date.toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        });
+
+        const formattedAmount = new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR"
+        }).format(payment.total);
+
+        const statusClass = payment.status === "lunas" ? "lunas" : "belum";
+        const statusText = payment.status === "lunas" ? "Lunas" : "Belum Lunas";
+
+        row.innerHTML = `
+          <td class="py-3 px-4 font-medium">${payment.id}</td>
+          <td class="py-3 px-4">${payment.nama}</td>
+          <td class="py-3 px-4">${formattedDate}</td>
+          <td class="py-3 px-4 font-medium">${formattedAmount}</td>
+          <td class="py-3 px-4"><span class="${statusClass}">${statusText}</span></td>
+          <td class="py-3 px-4">
+            <button onclick="verifikasiPembayaran(${index})" class="mr-2 text-indigo-600 hover:text-indigo-800">
+              <i class="fas fa-check-circle"></i> Verifikasi
+            </button>
+            <button onclick="deletePayment(${index})" class="text-red-600 hover:text-red-800">
+              <i class="fas fa-trash-alt"></i> Hapus
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function verifikasiPembayaran(index) {
+  if (paymentHistory[index].status === "lunas") {
+    Swal.fire({
+      icon: "info",
+      title: "Sudah Diverifikasi",
+      text: "Pembayaran ini sudah lunas sebelumnya.",
+      confirmButtonColor: "#6366f1"
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: "Verifikasi Pembayaran?",
+    text: "Apakah Anda yakin ingin memverifikasi pembayaran ini sebagai lunas?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#10b981",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya, Verifikasi"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      paymentHistory[index].status = "lunas";
+      localStorage.setItem("riwayat_pesanan", JSON.stringify(paymentHistory));
+      renderTable();
+
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "Pembayaran telah diverifikasi.",
+        confirmButtonColor: "#10b981"
+      });
+    }
+  });
+}
+
+   function deletePayment(index) {
+  Swal.fire({
+    title: "Hapus Data?",
+    text: "Data yang dihapus tidak dapat dikembalikan.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#ef4444",
+    cancelButtonColor: "#6b7280",
+    confirmButtonText: "Ya, Hapus"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      paymentHistory.splice(index, 1);
+      localStorage.setItem("riwayat_pesanan", JSON.stringify(paymentHistory));
+      renderTable();
+
+      Swal.fire({
+        icon: "success",
+        title: "Dihapus!",
+        text: "Data pembayaran telah dihapus.",
+        confirmButtonColor: "#ef4444"
+      });
+    }
+  });
+}
+
+    $(document).ready(function () {
+      renderTable();
+      $('#tabelRiwayat').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        language: {
+          search: "Cari:",
+          zeroRecords: "Tidak ditemukan data yang sesuai",
+          paginate: {
+            previous: "Sebelumnya",
+            next: "Selanjutnya"
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

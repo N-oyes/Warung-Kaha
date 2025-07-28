@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Warung Makan Kaha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #2d2d2d;
+      background-color: white;
+      font-size: 18px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    header {
+      background-color: #F9D4B4;
+      color: black;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 16px 24px;
+    }
+    
+    .nav-links a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #f97316;
+    }
+    
+    footer {
+      background-color: #0c0a3a;
+      color: white;
+      text-align: center;
+      padding: 24px;
+      font-size: 18px;
+      margin-top: auto;
+    }
+    
+    .breadcrumb {
+      padding: 8px 24px;
+      font-size: 18px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="flex justify-between items-center">
+      <div class="font-semibold text-[25px] text-orange-600">
+        🍽️ Warung Makan Kaha
+      </div>
+      <div class="nav-links flex space-x-6">
+        <a href="index.html">Home</a>
+        <a href="keranjang.html">Keranjang</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span><i class="fas fa-utensils mr-2"></i> Katalog Menu</span>
+    <span>Home / Katalog Menu</span>
+  </div>
+
+  <!-- Menu Grid -->
+  <main class="px-6 py-6 grid grid-cols-2 sm:grid-cols-5 gap-x-6 gap-y-8 w-full max-w-screen-2xl mx-auto">
+    <!-- Menu 1 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Bakso Daging"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/12ff3c88-f8ea-43be-c246-8d4cffd92215.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Bakso</div>
+        <div class="text-blue-600">Bakso Daging</div>
+        <div class="text-gray-600">Rp 20.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Bakso Daging', 20000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=1"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 2 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Nasi Goreng"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/f14a9445-c986-4222-966c-d87bf9eec315.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Nasi Goreng</div>
+        <div class="text-blue-600">Ayam, Sosis</div>
+        <div class="text-gray-600">Rp 25.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Nasi Goreng', 25000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=2"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 3 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Soto Lamongan"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/566e31ed-3258-49d8-b620-07501e39d8e3.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Soto Lamongan</div>
+        <div class="text-blue-600">Ayam</div>
+        <div class="text-gray-600">Rp 12.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Soto Lamongan', 12000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=3"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 4 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Mie Ayam"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/3543820a-f424-4e7e-2056-14371008c271.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Mie Ayam</div>
+        <div class="text-blue-600">Ceker</div>
+        <div class="text-gray-600">Rp 15.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Mie Ayam Ceker', 15000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=4"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 5 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Nasi Balap"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/db5e3f2f-a87f-4eb2-2aee-bacc42cc40fb.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Nasi Balap</div>
+        <div class="text-blue-600">Ayam Pedas</div>
+        <div class="text-gray-600">Rp 13.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Nasi Balap Ayam Pedas', 13000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=5"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 6 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Es Teh"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/d0235cee-badc-4f3f-370b-8da9937c14fc.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Es Teh</div>
+        <div class="text-blue-600">Jasmine, Lychee</div>
+        <div class="text-gray-600">Rp 5.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Es Teh Jasmine, Lychee', 5000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=6"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 7 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Es Jeruk"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/e8359f7c-e8b7-4586-115e-aabe91610f02.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Es Jeruk</div>
+        <div class="text-blue-600">Peras</div>
+        <div class="text-gray-600">Rp 5.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Jeruk Peras', 5000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=7"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 8 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Es Kopi"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/e324267f-c4d7-4fee-1344-fb72b840673e.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Es Kopi</div>
+        <div class="text-blue-600">Ice Latte</div>
+        <div class="text-gray-600">Rp 7.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Es Kopi Ice Latte', 7000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=8"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 9 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Es Coklat"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/a49ac49c-5260-4264-cc01-27816b9fd05d.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Es Coklat</div>
+        <div class="text-blue-600">Milo, Oreo</div>
+        <div class="text-gray-600">Rp 10.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Es Coklat Milo, Oreo', 10000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=9"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+
+    <!-- Menu 10 -->
+    <div class="text-center text-xs sm:text-sm">
+      <img
+        alt="Es Buah"
+        class="mx-auto"
+        height="90"
+        src="https://storage.googleapis.com/a1aa/image/6409637b-ee8c-433e-080d-d71ba0610d06.jpg"
+        width="120"
+      />
+      <div class="bg-white mt-1 py-1">
+        <div class="font-semibold underline text-blue-700">Es Buah</div>
+        <div class="text-blue-600">Segar</div>
+        <div class="text-gray-600">Rp 10.000</div>
+      </div>
+      <div class="flex justify-center mt-1 text-yellow-500">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="fas fa-star"></i><i class="fas fa-star"></i
+        ><i class="far fa-star"></i>
+      </div>
+      <button
+        onclick="addToCart('Es Buah', 10000)"
+        class="bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700 mt-2"
+      >
+        Tambah
+      </button>
+      <a
+        href="menu-detail.html?id=10"
+        class="block mt-1 text-blue-600 hover:underline"
+        >Lihat Ulasan</a
+      >
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="font-semibold">Warung Makan Kaha</div>
+    <p>
+      Alamat:Jl. Rajawali Raya Ganjuran No.33, RT./RW/RW.03/64, Manukan,
+      Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa
+      Yogyakarta 55283
+    </p>
+    <p>No Telepon: 085202430918</p>
+    <div class="flex justify-center space-x-4 mt-2">
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-facebook-f"></i>
+    </div>
+    <p class="mt-2">© 2025 Warung Makan Kaha. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function addToCart(itemName, price) {
+      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      cartItems.push({ name: itemName, price: price, quantity: 1 });
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      window.location.href = "keranjang.html";
+    }
+  </script>
+</body>
+</html>
