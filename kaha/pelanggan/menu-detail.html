@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detail Menu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-6 text-center text-orange-600">Detail Menu & Ulasan</h1>
+
+    <div id="menuDetail" class="bg-white rounded-lg shadow-md p-6 mb-6 text-center"></div>
+
+    <h2 class="text-xl font-semibold mb-3 text-gray-700">Ulasan Pelanggan</h2>
+    <div class="bg-white rounded-lg shadow-sm p-4">
+      <ul class="list-disc pl-5 text-gray-600" id="ulasanList"></ul>
+    </div>
+
+    <a href="menu.html" class="mt-6 inline-block px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition">← Kembali ke Menu</a>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    const menus = {
+      1: {
+        name: "Bakso Daging",
+        price: 20000,
+        img: "https://storage.googleapis.com/a1aa/image/12ff3c88-f8ea-43be-c246-8d4cffd92215.jpg",
+        desc: "Bakso daging sapi kenyal, disajikan dengan kuah gurih dan taburan bawang goreng.",
+        reviews: [
+          "Baksonya besar dan berisi, mantap banget!",
+          "Kuahnya gurih, pas di lidah.",
+          "Paling enak kalau lagi hujan, anget!"
+        ]
+      },
+      2: {
+        name: "Nasi Goreng",
+        price: 25000,
+        img: "https://storage.googleapis.com/a1aa/image/f14a9445-c986-4222-966c-d87bf9eec315.jpg",
+        desc: "Nasi goreng spesial dengan ayam suwir dan sosis, rasa bintang lima harga kaki lima.",
+        reviews: [
+          "Bumbunya nendang, enggak hambar.",
+          "Sosisnya banyak dan enak.",
+          "Porsi besar, puas banget!"
+        ]
+      },
+      3: {
+        name: "Soto Lamongan",
+        price: 12000,
+        img: "https://storage.googleapis.com/a1aa/image/566e31ed-3258-49d8-b620-07501e39d8e3.jpg",
+        desc: "Soto ayam khas Lamongan dengan koya dan sambal segar.",
+        reviews: [
+          "Kuahnya bening tapi kaya rasa!",
+          "Koyanya banyak, suka banget!",
+          "Cocok buat sarapan."
+        ]
+      },
+      4: {
+        name: "Mie Ayam Ceker",
+        price: 15000,
+        img: "https://storage.googleapis.com/a1aa/image/3543820a-f424-4e7e-2056-14371008c271.jpg",
+        desc: "Mie ayam gurih dengan tambahan ceker empuk dan kaya bumbu.",
+        reviews: [
+          "Cekernya empuk banget, lepas dari tulang.",
+          "Mienya kenyal dan gurih.",
+          "Langganan tiap minggu!"
+        ]
+      },
+      5: {
+        name: "Nasi Balap Ayam Pedas",
+        price: 13000,
+        img: "https://storage.googleapis.com/a1aa/image/db5e3f2f-a87f-4eb2-2aee-bacc42cc40fb.jpg",
+        desc: "Nasi pedas dengan ayam suwir khas Lombok yang menggugah selera.",
+        reviews: [
+          "Pedasnya nampol! Tapi enak.",
+          "Ayamnya berbumbu dan empuk.",
+          "Bikin ketagihan!"
+        ]
+      },
+      6: {
+        name: "Es Teh Jasmine, Lychee",
+        price: 5000,
+        img: "https://storage.googleapis.com/a1aa/image/d0235cee-badc-4f3f-370b-8da9937c14fc.jpg",
+        desc: "Es teh segar dengan aroma melati dan tambahan rasa leci yang manis.",
+        reviews: [
+          "Segar banget, cocok buat cuaca panas.",
+          "Manisnya pas, enggak lebay.",
+          "Lychee-nya wangi dan seger!"
+        ]
+      },
+      7: {
+        name: "Jeruk Peras",
+        price: 5000,
+        img: "https://storage.googleapis.com/a1aa/image/e8359f7c-e8b7-4586-115e-aabe91610f02.jpg",
+        desc: "Minuman es jeruk asli perasan segar tanpa pemanis buatan.",
+        reviews: [
+          "Rasa jeruknya asli, bukan sirup!",
+          "Asam-manisnya pas.",
+          "Favorit kalau makan gorengan."
+        ]
+      },
+      8: {
+        name: "Es Kopi Ice Latte",
+        price: 7000,
+        img: "https://storage.googleapis.com/a1aa/image/e324267f-c4d7-4fee-1344-fb72b840673e.jpg",
+        desc: "Kopi susu kekinian yang creamy, manis, dan tidak pahit.",
+        reviews: [
+          "Latte-nya lembut, enggak pahit.",
+          "Harganya murah tapi rasa kafe.",
+          "Cocok buat temen kerja!"
+        ]
+      },
+      9: {
+        name: "Es Coklat Milo, Oreo",
+        price: 10000,
+        img: "https://storage.googleapis.com/a1aa/image/a49ac49c-5260-4264-cc01-27816b9fd05d.jpg",
+        desc: "Minuman es coklat dingin dengan Milo dan remahan Oreo di atasnya.",
+        reviews: [
+          "Anak-anak suka banget!",
+          "Coklatnya kental dan manis.",
+          "Oreo-nya banyak, mantap!"
+        ]
+      },
+      10: {
+        name: "Es Buah",
+        price: 10000,
+        img: "https://storage.googleapis.com/a1aa/image/6409637b-ee8c-433e-080d-d71ba0610d06.jpg",
+        desc: "Es buah segar dengan potongan melon, semangka, nanas dan sirup manis.",
+        reviews: [
+          "Segar dan banyak buahnya.",
+          "Sirupnya pas, enggak kemanisan.",
+          "Favorit sekeluarga di siang hari."
+        ]
+      },
+    };
+
+    const menu = menus[id];
+
+    if (menu) {
+      document.getElementById("menuDetail").innerHTML = `
+        <img src="${menu.img}" alt="${menu.name}" class="w-48 h-48 object-cover mx-auto rounded-md mb-4 shadow">
+        <h2 class="text-xl font-bold text-gray-800">${menu.name}</h2>
+        <p class="text-gray-600 mt-2 mb-2">${menu.desc}</p>
+        <p class="text-orange-600 font-semibold">Harga: Rp ${menu.price.toLocaleString()}</p>
+      `;
+      const ulasanList = document.getElementById("ulasanList");
+      menu.reviews.forEach(u => {
+        const li = document.createElement("li");
+        li.textContent = u;
+        ulasanList.appendChild(li);
+      });
+    } else {
+      document.getElementById("menuDetail").innerHTML = "<p class='text-red-500'>Menu tidak ditemukan.</p>";
+    }
+  </script>
+</body>
+</html>
